@@ -20,22 +20,33 @@ def iniciar_tabla_precios():
     precios = [1.35, 0.8, 0.85, 0.7]
     for key, value in zip(frutas, precios):
         tabla_precios[key] = value
-
     return tabla_precios
 
     
-def incluir_fruta(fruta, kilos):
+def obtener_precio(fruta, kilos):
     precio = precios_frutas[fruta]
     precio_total = precio * kilos
-    print(f"El precio total de {kilos} kg de {fruta.lower()}s es: {precio_total} €.")
+    print(f"El precio total de {kilos} kg de {fruta.lower()}s es: {precio_total:.2f} €.")
 
 
 # Main
 precios_frutas = iniciar_tabla_precios()
 print(precios_frutas)
 fruta = input("Introduce el nombre de la fruta: ").capitalize()
-if fruta in list(precios_frutas.keys()):
-    kilos = float(input("Introduce el número de kilos: "))
-    incluir_fruta(fruta, kilos)
-else:
+try:
+    precios_frutas[fruta]
+    print(precios_frutas[fruta])
+except KeyError:
     print("La fruta no se encuentra en el diccionario")
+else:
+    flag_num = 0
+    while flag_num == 0:
+        try:
+            kilos = float(input("Introduce el número de kilos: "))
+        except:
+            print("Introduce un número correcto de kilos.")
+        else:
+            obtener_precio(fruta, kilos)
+            flag_num = 1
+finally:
+    print("Adiós!")
