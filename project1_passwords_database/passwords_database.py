@@ -15,6 +15,7 @@ El usuario será continuamente preguntado para introducir una de las opciones an
 import os
 import random
 import hashlib
+import clipboard
 
 MENU_LENGTH = 75
 DATABASE_FILEPATH = "database.csv"
@@ -93,7 +94,18 @@ if __name__ == '__main__':
                         print("Valor no válido. Inténtelo otra vez")
                     else:
                         if n_char + n_num <= n:
-                            print("Contraseña:", generar_contraseña(n, n_char, n_num))
+                            generated_password = generar_contraseña(n, n_char, n_num)
+                            print("Contraseña:", generated_password)
+                            while True:
+                                ans = input("¿Desea generar otra contraseña? (s/n): ")
+                                if ans.lower() == 's':
+                                    generated_password = generar_contraseña(n, n_char, n_num)
+                                    print("Contraseña:", generated_password)
+                                elif ans.lower() == 'n':
+                                    break
+                            ans = input("¿Desea copiar la contraseña al portapapeles? (s/n): ")
+                            if ans.lower() == 's':
+                                clipboard.copy(generated_password)
                             ans = input("¿Desea hacer otra operación? (s/n): ")
                             if ans.lower() == 'n':
                                 break
