@@ -8,5 +8,7 @@ Como administrador de una base de datos de un sitio web e-commerce deberás cons
     
     3. Cambio de contraseña. El usuario deberá introducir la contraseña actual y, a continuación, ser preguntado por la nueva contraseña. Finalmente, el hash de la nueva contraseña será actualizado en la base de datos y se deberá informar al usuario.
 
+    4. Registrarse en el sitio web. El usuario será preguntado por el usuario y la contraseña que querrá utilizar en el sitio web. El resultado será escrito en la base de datos.
+
 El usuario será continuamente preguntado para introducir una de las opciones anteriores hasta que decida salir del programa.
 """
