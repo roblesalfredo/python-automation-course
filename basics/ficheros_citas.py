@@ -35,12 +35,7 @@ def añadir_cita(dni, mes, dia, hora, especialidad, database_filepath=DATABASE_F
 def listar_citas(dni, database_filepath=DATABASE_FILEPATH):
     with open(database_filepath, 'r', encoding='utf-8') as f:
         citas = f.readlines()
-        listado = []
-        for cita in citas:
-            dni_cita = cita.split(",")[0]
-            if dni_cita == dni:
-                listado.append(cita)
-    return listado
+    return [cita for cita in citas if cita.split(",")[0] == dni]
 
 
 def eliminar_citas(mes, dia, database_filepath=DATABASE_FILEPATH):
@@ -58,7 +53,7 @@ def eliminar_citas(mes, dia, database_filepath=DATABASE_FILEPATH):
 
 
 # Main
-# añadir_cita("01234567", "3", "20", "15:00", "Traumatólogo")
+añadir_cita("01234567", "3", "20", "15:00", "Traumatólogo")
 listado_citas = listar_citas("345345354")
-print(listado_citas)
-eliminar_citas("3", "2")
+# print(listado_citas)
+# eliminar_citas("3", "2")
