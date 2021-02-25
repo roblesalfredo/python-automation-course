@@ -10,6 +10,8 @@ Como administrador de una base de datos de un sitio web e-commerce deberás cons
 
     4. Registrarse en el sitio web. El usuario será preguntado por el usuario y la contraseña que querrá utilizar en el sitio web. El resultado será escrito en la base de datos.
 
+    5. Opción para salir del programa.
+
 El usuario será continuamente preguntado para introducir una de las opciones anteriores hasta que decida salir del programa.
 """
 import os
@@ -20,36 +22,26 @@ import clipboard
 MENU_LENGTH = 75
 DATABASE_FILEPATH = "database.csv"
 
+
 def generar_contraseña(n, nc, nn):
-    password = ["" for i in range(n)]
-    # Generar caracteres
-    # Rango ASCII: 33 a 47, 58 a 64 y 91 a 95
     rango_caracteres = [i for i in range(33, 48)] + [i for i in range(58, 65)] + [i for i in range(91, 96)]
-    caracteres_completados = 0
-    while caracteres_completados < nc:
-        pos = random.randint(0, n - 1)
-        if password[pos] == "":
-            aleatorio = chr(random.choice(rango_caracteres))
-            password[pos] = aleatorio
-            caracteres_completados += 1
-    # Generar números
-    # Rango ASCII: 48 a 57
-    rango_caracteres = [i for i in range(48, 58)]
-    numeros_completados = 0
-    while numeros_completados < nn:
-        pos = random.randint(0, n - 1)
-        if password[pos] == "":
-            aleatorio = chr(random.choice(rango_caracteres))
-            password[pos] = aleatorio
-            numeros_completados += 1
-    # Generar resto de caracteres
-    # Rango ASCII: 65 a 90 y 97 a 122
-    rango_caracteres = [i for i in range(65, 90)] + [i for i in range(97, 122)]
-    for i in range(n):
-        if password[i] == "":
-            aleatorio = chr(random.choice(rango_caracteres))
-            password[i] = aleatorio
+    rango_numeros = [i for i in range(48, 58)]
+    rango_letras = [i for i in range(65, 90)] + [i for i in range(97, 122)]
+    password = ""
+    # Generar números - Rango ASCII: 48 a 57
+    for _ in range(nn):
+        password += chr(random.choice(rango_numeros))
+    # Generar caracteres - Rango ASCII: 33 a 47, 58 a 64 y 91 a 95
+    for _ in range(nc):
+        password += chr(random.choice(rango_caracteres))
+    # Completar letras - Rango ASCII: 65 a 90 y 97 a 122
+    for _ in range(n - nn - nc):
+        password += chr(random.choice(rango_letras))
+
+    password = list(password)   
+    random.shuffle(password)
     return "".join(password)
+
 
 def leer_database(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
@@ -57,6 +49,7 @@ def leer_database(filepath):
     database_split = [tuple(i.split(",")) for i in database_raw.split("\n") if len(i) > 0]
     database = {database_split[r][0]: database_split[r][1] for r in range(1, len(database_split))}
     return database
+
 
 def escribir_database(filepath, database_json):
     database_raw = "usuario,contraseña\n"
